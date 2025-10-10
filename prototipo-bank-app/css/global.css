@@ -1,0 +1,98 @@
+@import url("./variables.css");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  font-family: var(--font-primary);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-sm {
+  margin-bottom: var(--spacing-sm);
+}
+.mb-md {
+  margin-bottom: var(--spacing-md);
+}
+.mb-lg {
+  margin-bottom: var(--spacing-lg);
+}
+
+/* BOTONES */
+.btn {
+  font-family: var(--font-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  border: none;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-login {
+  gap: var(--spacing-xs);
+  padding: 0.7rem var(--spacing-md);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.3px;
+  color: var(--color-primary-dark);
+}
+
+.btn-login:hover {
+  background-color: var(--color-border);
+  color: var(--color-primary-dark);
+}
+
+.btn-signup {
+  gap: var(--spacing-xs);
+  padding: 0.8rem 1.8rem;
+  background-color: var(--color-primary-dark);
+  color: var(--color-bg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.3px;
+}
+
+.btn-signup:hover {
+  background-color: #1a2e26;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-get-started {
+  gap: 0.75rem;
+  padding: 1.1rem 2.8rem;
+  background-color: var(--color-primary-dark);
+  color: var(--color-bg);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-get-started:hover {
+  background-color: #1a2e26;
+  box-shadow: var(--shadow-md);
+}

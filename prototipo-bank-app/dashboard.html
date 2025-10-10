@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel - BankPro</title>
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <!-- Google Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span>BankPro</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <span class="material-symbols-outlined">home</span>
+                <span>Panel</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="material-symbols-outlined">swap_horiz</span>
+                <span>Transferir</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span>Transacciones</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="material-symbols-outlined">account_balance</span>
+                <span>Cuentas y Tarjetas</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="material-symbols-outlined">trending_up</span>
+                <span>Inversiones</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="material-symbols-outlined">settings</span>
+                <span>Configuración</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn-logout" id="logoutBtn">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Cerrar sesión</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard-main">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1>Panel</h1>
+            <div class="header-right">
+                <span class="material-symbols-outlined">notifications</span>
+                <div class="user-profile">
+                    <span class="user-avatar">U</span>
+                    <span class="user-name">Usuario Demo</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Success/Error Messages -->
+        <div id="messageContainer" class="message-container" style="display: none;">
+                    <div id="messageContent" class="message-content">
+                <span class="material-symbols-outlined" id="messageIcon">check_circle</span>
+                <div id="messageText"></div>
+                <button id="closeMessage" class="close-message">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Balance Card -->
+                <section class="balance-card">
+                    <div class="balance-info">
+                        <p class="balance-label">Saldo total</p>
+                        <h2 class="balance-amount" id="accountBalance">USD 25.430,50</h2>
+                    </div>
+                    <div class="balance-trend">
+                        <span class="trend-icon">↗</span>
+                        <span class="trend-text">2.36%</span>
+                    </div>
+                </section>
+
+                <!-- Statistics/Send Money Section -->
+                <section class="statistics-section">
+                    <h3 class="section-title">Enviar dinero</h3>
+                    <form class="send-money-form" id="sendMoneyForm">
+                        <div class="input-group">
+                            <label for="recipientAccount">Cuenta destino</label>
+                            <input 
+                                type="text" 
+                                id="recipientAccount" 
+                                placeholder="Ingresa número de cuenta"
+                                required
+                            >
+                            <span class="error-message" id="recipientError"></span>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="amount">Monto</label>
+                            <div class="amount-input-wrapper">
+                                <span class="currency-symbol">$</span>
+                                <input 
+                                    type="number" 
+                                    id="amount" 
+                                    placeholder="0,00"
+                                    step="0.01"
+                                    min="0.01"
+                                    required
+                                >
+                            </div>
+                            <span class="error-message" id="amountError"></span>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="description">Descripción (opcional)</label>
+                            <input 
+                                type="text" 
+                                id="description" 
+                                placeholder="Concepto de transferencia"
+                            >
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-send">
+                            <span class="material-symbols-outlined">send</span>
+                            Enviar
+                        </button>
+                    </form>
+                </section>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Transactions Section -->
+                <section class="transactions-section">
+                    <div class="transactions-header">
+                        <h3>Transacciones</h3>
+                        <a href="#" class="view-all-link">Ver todas</a>
+                    </div>
+                    <div class="transactions-filter">
+                        <span class="filter-item active">Todas</span>
+                        <span class="filter-item">Gastos</span>
+                        <span class="filter-item">Ingresos</span>
+                    </div>
+                    <div class="transactions-list" id="transactionsList">
+                        <div class="transaction-item">
+                            <div class="transaction-icon expense">
+                                <span>🍔</span>
+                            </div>
+                            <div class="transaction-details">
+                                <p class="transaction-name">Central Burger</p>
+                                <p class="transaction-category">Café y Restaurante</p>
+                            </div>
+                            <p class="transaction-amount expense">-$189.36</p>
+                        </div>
+
+                        <div class="transaction-item">
+                            <div class="transaction-icon expense">
+                                <span>🛒</span>
+                            </div>
+                            <div class="transaction-details">
+                                <p class="transaction-name">The Market</p>
+                                <p class="transaction-category">Supermercado</p>
+                            </div>
+                            <p class="transaction-amount expense">-$92.50</p>
+                        </div>
+
+                        <div class="transaction-item">
+                            <div class="transaction-icon income">
+                                <span>💰</span>
+                            </div>
+                            <div class="transaction-details">
+                                <p class="transaction-name">Transferencia rápida</p>
+                                <p class="transaction-category">María Purple</p>
+                            </div>
+                            <p class="transaction-amount income">+$350.00</p>
+                        </div>
+
+                        <div class="transaction-item">
+                            <div class="transaction-icon expense">
+                                <span>🛒</span>
+                            </div>
+                            <div class="transaction-details">
+                                <p class="transaction-name">The Market</p>
+                                <p class="transaction-category">Supermercado</p>
+                            </div>
+                            <p class="transaction-amount expense">-$36.20</p>
+                        </div>
+
+                        <div class="transaction-item">
+                            <div class="transaction-icon expense">
+                                <span>🍔</span>
+                            </div>
+                            <div class="transaction-details">
+                                <p class="transaction-name">Central Burger</p>
+                                <p class="transaction-category">Café y Restaurante</p>
+                            </div>
+                            <p class="transaction-amount expense">-$189.36</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
