@@ -1,0 +1,96 @@
+<div class="dashboard-content">
+    <!-- Left Column - Account Info -->
+    <div class="left-column">
+        <!-- Account Card -->
+        <section style="background: linear-gradient(135deg, var(--color-primary-dark) 0%, #2d4a3d 100%); border-radius: var(--radius-lg); padding: var(--spacing-2xl); color: white; margin-bottom: var(--spacing-lg);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <p style="font-size: var(--font-size-sm); opacity: 0.9; margin: 0 0 var(--spacing-xs) 0;">Cuenta</p>
+                    <h2 style="font-size: var(--font-size-2xl); font-weight: 700; margin: 0 0 var(--spacing-xl) 0; font-family: 'Courier New', monospace; letter-spacing: 3px;">
+                        <%= cuenta.numeroCuenta.match(/.{1,4}/g).join(' ') %>
+                    </h2>
+                    <p style="font-size: var(--font-size-sm); opacity: 0.9; margin: 0 0 var(--spacing-xs) 0;">Saldo disponible</p>
+                    <h1 style="font-size: 3rem; font-weight: 700; margin: 0;">
+                        $<%= cuenta.saldoActual.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                    </h1>
+                </div>
+                <a href="/dashboard/cuentas" style="background: rgba(255,255,255,0.2); color: white; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-sm); text-decoration: none; font-size: var(--font-size-sm);">
+                    ← Volver
+                </a>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <section class="statistics-section">
+            <h3 class="section-title">Acciones</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md);">
+                <a href="/dashboard/cuentas/<%= cuenta.id %>/transaccion" style="background-color: var(--color-primary-dark); color: white; padding: var(--spacing-lg); border-radius: var(--radius-md); text-decoration: none; text-align: center; transition: all 0.2s;">
+                    <span class="material-symbols-outlined" style="font-size: 32px; display: block; margin-bottom: var(--spacing-xs);">add_circle</span>
+                    <div style="font-weight: 600;">Nueva Transacción</div>
+                    <div style="font-size: var(--font-size-xs); opacity: 0.9;">Depósito o retiro</div>
+                </a>
+                
+                <% if (cuenta.saldoActual === 0) { %>
+                    <form method="POST" action="/dashboard/cuentas/<%= cuenta.id %>/eliminar" onsubmit="return confirm('¿Estás seguro de eliminar esta cuenta?');" style="margin: 0;">
+                        <button type="submit" style="width: 100%; background-color: #ef4444; color: white; padding: var(--spacing-lg); border: none; border-radius: var(--radius-md); text-align: center; cursor: pointer; transition: all 0.2s;">
+                            <span class="material-symbols-outlined" style="font-size: 32px; display: block; margin-bottom: var(--spacing-xs);">delete</span>
+                            <div style="font-weight: 600;">Eliminar Cuenta</div>
+                            <div style="font-size: var(--font-size-xs); opacity: 0.9;">Saldo en cero</div>
+                        </button>
+                    </form>
+                <% } else { %>
+                    <div style="background-color: #f3f4f6; color: #6b7280; padding: var(--spacing-lg); border-radius: var(--radius-md); text-align: center;">
+                        <span class="material-symbols-outlined" style="font-size: 32px; display: block; margin-bottom: var(--spacing-xs); opacity: 0.5;">block</span>
+                        <div style="font-weight: 600;">Eliminar Cuenta</div>
+                        <div style="font-size: var(--font-size-xs);">Retira el saldo primero</div>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+    </div>
+
+    <!-- Right Column - Transactions -->
+    <div class="right-column">
+        <section class="transactions-section">
+            <div class="transactions-header">
+                <h3>Historial de Transacciones</h3>
+            </div>
+            
+            <div class="transactions-list">
+                <% if (transacciones && transacciones.length > 0) { %>
+                    <% transacciones.forEach(function(transaccion) { %>
+                        <div class="transaction-item">
+                            <div class="transaction-icon <%= transaccion.tipo === 'DEPOSITO' ? 'income' : 'expense' %>">
+                                <span>
+                                    <% if (transaccion.tipo === 'DEPOSITO') { %>💰
+                                    <% } else if (transaccion.tipo === 'RETIRO') { %>💸
+                                    <% } else { %>📤
+                                    <% } %>
+                                </span>
+                            </div>
+                            <div class="transaction-details">
+                                <p class="transaction-name">
+                                    <% if (transaccion.tipo === 'DEPOSITO') { %>Depósito
+                                    <% } else if (transaccion.tipo === 'RETIRO') { %>Retiro
+                                    <% } else { %>Transferencia
+                                    <% } %>
+                                </p>
+                                <p class="transaction-category">
+                                    <%= transaccion.descripcion || 'Sin descripción' %>
+                                </p>
+                            </div>
+                            <p class="transaction-amount <%= transaccion.tipo === 'DEPOSITO' ? 'income' : 'expense' %>">
+                                <%= transaccion.tipo === 'DEPOSITO' ? '+' : '-' %>$<%= Math.abs(transaccion.monto).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                            </p>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div style="text-align: center; padding: var(--spacing-xl); color: var(--color-text-secondary);">
+                        <span class="material-symbols-outlined" style="font-size: 48px; opacity: 0.3;">receipt_long</span>
+                        <p>No hay transacciones en esta cuenta</p>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+    </div>
+</div>

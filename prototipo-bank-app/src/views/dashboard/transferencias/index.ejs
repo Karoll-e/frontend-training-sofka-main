@@ -1,0 +1,181 @@
+<div class="content-wrapper">
+    <!-- Transfer Form -->
+    <section class="card">
+            <h3 class="card-title">Nueva Transferencia</h3>
+            <form method="POST" action="/dashboard/transferencias" class="transfer-form">
+                <div class="form-group">
+                    <label for="cuentaOrigenId">Cuenta Origen</label>
+                    <select name="cuentaOrigenId" id="cuentaOrigenId" class="form-control" required>
+                        <option value="">Selecciona una cuenta</option>
+                        <% cuentas.forEach(function(cuenta) { %>
+                            <option value="<%= cuenta.id %>">
+                                <%= cuenta.numeroCuenta %> - Saldo: $<%= cuenta.saldoActual.toLocaleString('es-CO', { minimumFractionDigits: 2 }) %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="numeroCuentaDestino">Cuenta Destino</label>
+                    <input 
+                        type="text" 
+                        name="numeroCuentaDestino" 
+                        id="numeroCuentaDestino" 
+                        class="form-control"
+                        placeholder="Número de cuenta destino"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="monto">Monto</label>
+                    <input 
+                        type="number" 
+                        name="monto" 
+                        id="monto" 
+                        class="form-control"
+                        placeholder="0.00"
+                        step="0.01"
+                        min="0.01"
+                        required
+                    >
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="material-symbols-outlined">send</span>
+                        Realizar Transferencia
+                    </button>
+                </div>
+            </form>
+        </section>
+</div>
+
+<style>
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+.card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xl);
+    color: var(--color-text);
+}
+
+.transfer-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-width: 800px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: var(--radius-sm);
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.form-control::placeholder {
+    color: #9ca3af;
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.btn-primary {
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 0.875rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+    background-color: #2d2d2d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary .material-symbols-outlined {
+    font-size: 1.25rem;
+}
+</style>
+
+<script>
+// Remove spaces from account number before form submission
+document.addEventListener('DOMContentLoaded', function() {
+    const transferForm = document.querySelector('.transfer-form');
+    const cuentaDestinoInput = document.getElementById('numeroCuentaDestino');
+    
+    if (transferForm) {
+        transferForm.addEventListener('submit', function(e) {
+            // Remove spaces from account number
+            if (cuentaDestinoInput && cuentaDestinoInput.value) {
+                cuentaDestinoInput.value = cuentaDestinoInput.value.replace(/\s/g, '');
+            }
+        });
+    }
+    
+    // Format account number with spaces for better readability
+    if (cuentaDestinoInput) {
+        cuentaDestinoInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.replace(/(\d{4})/g, '$1 ').trim();
+            e.target.value = formattedValue;
+        });
+    }
+});
+</script>

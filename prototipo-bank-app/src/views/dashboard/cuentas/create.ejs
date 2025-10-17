@@ -1,0 +1,51 @@
+<div class="dashboard-content">
+    <div class="left-column" style="max-width: 800px; margin: 0 auto;">
+        <section class="statistics-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+                <h3 class="section-title">Crear Nueva Cuenta</h3>
+                <a href="/dashboard/cuentas" style="color: var(--color-primary-dark); text-decoration: none; font-size: var(--font-size-sm);">
+                    ← Volver a mis cuentas
+                </a>
+            </div>
+
+            <!-- Server-side error display -->
+            <% if (locals.error) { %>
+                <div class="alert alert-error" style="background-color: #fee2e2; border: 1px solid #ef4444; color: #991b1b; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-family: var(--font-secondary); font-size: var(--font-size-sm);">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form method="POST" action="/dashboard/cuentas" class="send-money-form">
+                <!-- Info message -->
+                <div style="background-color: #dbeafe; border: 1px solid #3b82f6; color: #1e40af; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-family: var(--font-secondary); font-size: var(--font-size-sm);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span class="material-symbols-outlined" style="font-size: 20px;">info</span>
+                        <span><strong>Nota:</strong> El número de cuenta se generará automáticamente de forma única y segura.</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="saldoInicial">Saldo inicial</label>
+                    <div class="amount-input-wrapper">
+                        <span class="currency-symbol">$</span>
+                        <input
+                            type="number"
+                            id="saldoInicial"
+                            name="saldoInicial"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0"
+                            required
+                        >
+                    </div>
+                    <span class="error-message" id="saldoError"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-send">
+                    <span class="material-symbols-outlined">add_circle</span>
+                    Crear Cuenta
+                </button>
+            </form>
+        </section>
+    </div>
+</div>

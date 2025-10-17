@@ -1,0 +1,262 @@
+<div class="content-wrapper">
+    <!-- Transactions Filter -->
+    <section class="card">
+        <div class="transactions-header">
+            <h3 class="card-title">Historial de Transacciones</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="DEPOSITO">Depósitos</button>
+                <button class="filter-btn" data-filter="RETIRO">Retiros</button>
+                <button class="filter-btn" data-filter="TRANSFERENCIA">Transferencias</button>
+            </div>
+        </div>
+
+        <div class="transactions-list" id="transactionsList">
+            <% if (transacciones && transacciones.length > 0) { %>
+                <% transacciones.forEach(function(transaccion) { %>
+                    <div class="transaction-item" data-type="<%= transaccion.tipo %>">
+                        <div class="transaction-icon <%= transaccion.tipo === 'DEPOSITO' ? 'income' : 'expense' %>">
+                            <span class="material-symbols-outlined">
+                                <% if (transaccion.tipo === 'DEPOSITO') { %>add_circle
+                                <% } else if (transaccion.tipo === 'RETIRO') { %>remove_circle
+                                <% } else { %>swap_horiz
+                                <% } %>
+                            </span>
+                        </div>
+                        <div class="transaction-details">
+                            <p class="transaction-name">
+                                <% if (transaccion.tipo === 'DEPOSITO') { %>Depósito
+                                <% } else if (transaccion.tipo === 'RETIRO') { %>Retiro
+                                <% } else { %>Transferencia
+                                <% } %>
+                            </p>
+                            <p class="transaction-date">
+                                <%= new Date(transaccion.fecha).toLocaleDateString('es-CO', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
+                            </p>
+                            <p class="transaction-account">
+                                Cuenta: <%= transaccion.numeroCuenta %>
+                            </p>
+                        </div>
+                        <p class="transaction-amount <%= transaccion.tipo === 'DEPOSITO' ? 'income' : 'expense' %>">
+                            <%= transaccion.tipo === 'DEPOSITO' ? '+' : '-' %>$<%= Math.abs(transaccion.monto).toLocaleString('es-CO', { minimumFractionDigits: 2 }) %>
+                        </p>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="empty-state">
+                    <span class="material-symbols-outlined">receipt_long</span>
+                    <p>No hay transacciones registradas</p>
+                </div>
+            <% } %>
+        </div>
+    </section>
+</div>
+
+<style>
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+}
+
+.card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text);
+}
+
+.transactions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e5e7eb;
+    background: white;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.filter-btn.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+.transactions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.transaction-item:hover {
+    background-color: #f9fafb;
+    border-color: #e5e7eb;
+}
+
+.transaction-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.transaction-icon.expense {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.transaction-icon.income {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.transaction-icon .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.transaction-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.transaction-name {
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 0.25rem 0;
+    font-size: 0.9375rem;
+}
+
+.transaction-date {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 0.25rem 0;
+}
+
+.transaction-account {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    margin: 0;
+    font-family: monospace;
+}
+
+.transaction-amount {
+    font-weight: 700;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+.transaction-amount.expense {
+    color: #dc2626;
+}
+
+.transaction-amount.income {
+    color: #16a34a;
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-lg);
+    color: var(--color-text-secondary);
+}
+
+.empty-state .material-symbols-outlined {
+    font-size: 64px;
+    opacity: 0.3;
+    display: block;
+    margin-bottom: var(--spacing-md);
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .transactions-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .transaction-item {
+        flex-wrap: wrap;
+    }
+    
+    .transaction-amount {
+        width: 100%;
+        text-align: right;
+        margin-top: var(--spacing-sm);
+    }
+}
+</style>
+
+<script>
+// Transaction filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const transactionItems = document.querySelectorAll('.transaction-item');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.getAttribute('data-filter');
+            
+            // Filter transactions
+            transactionItems.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-type') === filter) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>

@@ -1,0 +1,104 @@
+<div class="dashboard-content">
+    <!-- Left Column -->
+    <div class="left-column">
+        <!-- Balance Card -->
+        <% if (cuentaPrincipal) { %>
+            <a href="/dashboard/cuentas/<%= cuentaPrincipal.id %>" style="text-decoration: none; color: inherit; display: block;">
+                <section class="balance-card" style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='';">
+                    <div>
+                        <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin: 0 0 var(--spacing-xs) 0;">Cuenta principal</p>
+                        <h2 style="font-size: var(--font-size-2xl); font-weight: 700; margin: 0 0 var(--spacing-xl) 0;">
+                            $<%= cuentaPrincipal.saldoActual.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                        </h2>
+                        <p style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin: 0 0 var(--spacing-xs) 0;">Número de cuenta</p>
+                        <h3 style="font-size: var(--font-size-lg); font-weight: 600; margin: 0 0 var(--spacing-xs) 0; font-family: 'Courier New', monospace; letter-spacing: 2px;">
+                            <%= cuentaPrincipal.numeroCuenta.match(/.{1,4}/g).join(' ') %>
+                        </h3>
+                    </div>
+                </section>
+            </a>
+        <% } else { %>
+            <section class="balance-card">
+                <div class="balance-info">
+                    <p class="balance-label">Saldo total</p>
+                    <h2 class="balance-amount" id="accountBalance">
+                        $<%= balanceTotal.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                    </h2>
+                </div>
+            </section>
+        <% } %>
+
+        <!-- Quick Actions Section -->
+        <section class="statistics-section">
+            <h3 class="section-title">Acciones rápidas</h3>
+            <div class="quick-actions-grid">
+                <a href="/dashboard/transferencias" class="action-button transfer">
+                    <span class="material-symbols-outlined">swap_horiz</span>
+                    <div class="action-content">
+                        <div class="action-title">Transferir Dinero</div>
+                        <div class="action-description">Envía dinero a otra cuenta</div>
+                    </div>
+                </a>
+                
+                <a href="/dashboard/cuentas" class="action-button deposit">
+                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                    <div class="action-content">
+                        <div class="action-title">Depósito / Retiro</div>
+                        <div class="action-description">Administra tus cuentas</div>
+                    </div>
+                </a>
+            </div>
+        </section>
+            </form>
+        </section>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+        <!-- Transactions Section -->
+        <section class="transactions-section">
+            <div class="transactions-header">
+                <h3>Transacciones recientes</h3>
+                <a href="/dashboard/transacciones" class="view-all-link">Ver todas</a>
+            </div>
+            <div class="transactions-list" id="transactionsList">
+                <% if (ultimasTransacciones && ultimasTransacciones.length > 0) { %>
+                    <% ultimasTransacciones.forEach(function(transaccion, idx) { %>
+                        <% if (idx >= 5) return; %>
+                        <div class="transaction-item">
+                            <div class="transaction-icon <%= transaccion.tipo === 'DEPOSITO' || transaccion.tipo === 'TRANSFERENCIA_RECIBIDA' ? 'income' : 'expense' %>">
+                                <span>
+                                    <% if (transaccion.tipo === 'DEPOSITO') { %>💰
+                                    <% } else if (transaccion.tipo === 'RETIRO') { %>💸
+                                    <% } else if (transaccion.tipo === 'TRANSFERENCIA') { %>📤
+                                    <% } else { %>📥
+                                    <% } %>
+                                </span>
+                            </div>
+                            <div class="transaction-details">
+                                <p class="transaction-name">
+                                    <% if (transaccion.tipo === 'DEPOSITO') { %>Depósito
+                                    <% } else if (transaccion.tipo === 'RETIRO') { %>Retiro
+                                    <% } else if (transaccion.tipo === 'TRANSFERENCIA') { %>Transferencia enviada
+                                    <% } else { %>Transferencia recibida
+                                    <% } %>
+                                </p>
+                                <p class="transaction-category">
+                                    <%= new Date(transaccion.fecha).toLocaleDateString('es-CO', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) %>
+                                </p>
+                            </div>
+                            <p class="transaction-amount <%= transaccion.tipo === 'DEPOSITO' || transaccion.tipo === 'TRANSFERENCIA_RECIBIDA' ? 'income' : 'expense' %>">
+                                <%= transaccion.tipo === 'DEPOSITO' || transaccion.tipo === 'TRANSFERENCIA_RECIBIDA' ? '+' : '-' %>$<%= Math.abs(transaccion.monto).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+                            </p>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div style="text-align: center; padding: var(--spacing-xl); color: var(--color-text-secondary);">
+                        <span class="material-symbols-outlined" style="font-size: 48px; opacity: 0.3;">receipt_long</span>
+                        <p>No hay transacciones recientes</p>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+    </div>
+</div>
