@@ -3,7 +3,7 @@
 Una aplicación bancaria web construida con Node.js, Express, TypeScript y EJS. Esta aplicación permite a los usuarios gestionar sus cuentas bancarias y realizar transacciones.
 
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 prototipo-bank-app/
@@ -79,12 +79,11 @@ prototipo-bank-app/
 └── README.md                           # Este archivo
 ```
 
-## 🎬 Demostración Completa
+## Demostración Completa
 
-![Video Demo](https://github.com/Karoll-e/frontend-training-sofka-main/blob/feature/create-frontend/prototipo-bank-app/readme_imgs/video_flujo_completo.mp4)
+https://github.com/user-attachments/assets/dbab372a-939e-409a-83c4-1665e571c1a7
 
-
-Este video muestra el flujo completo de la aplicación:
+Flujo completo de la aplicación demostrado en el video:
 - Página de inicio
 - Registro de nuevo usuario
 - Panel de control (Overview)
@@ -96,7 +95,7 @@ Este video muestra el flujo completo de la aplicación:
 
 ---
 
-## 📸 Guía Visual
+## Guía Visual
 
 ### Página de Inicio
 
