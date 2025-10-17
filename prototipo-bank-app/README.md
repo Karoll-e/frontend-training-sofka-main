@@ -81,9 +81,8 @@ prototipo-bank-app/
 
 ## 🎬 Demostración Completa
 
-<video src="./readme_imgs/video_flujo_completo.mp4" width="800" controls>
-  Tu navegador no soporta videos embebidos.
-</video>
+![Video Demo](https://github.com/Karoll-e/frontend-training-sofka-main/blob/feature/create-frontend/prototipo-bank-app/readme_imgs/video_flujo_completo.mp4)
+
 
 Este video muestra el flujo completo de la aplicación:
 - Página de inicio
